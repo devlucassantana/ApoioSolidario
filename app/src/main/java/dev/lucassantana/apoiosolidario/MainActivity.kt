@@ -58,15 +58,21 @@ fun InitialScreen() {
         modifier = Modifier
             .fillMaxSize()
     ) {
-
-
         //os () definem o formato e aparencia enquanto os {} definem o que tem nele
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(alignment = Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        )
+        {
+            Image(
+                painter = painterResource(id=R.drawable.apoiosolidario),
+                contentDescription ="Logotipo do aplicativo",
+                modifier= Modifier
+                    .size(120.dp)
+                    .align (alignment = Alignment.CenterHorizontally)
+            )
 
             Text(
                 text = "Apoio Solidário",
@@ -76,7 +82,7 @@ fun InitialScreen() {
             )
             Text(
                 text = "Conecte-se para ajudar ou receber apoio. Promova inclusão e equidade social.",
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 color = Color(0xFF000000),
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
@@ -93,7 +99,7 @@ fun InitialScreen() {
                     onClick = {},
                     colors = ButtonDefaults
                         .buttonColors(
-                            containerColor = Color(0xFFFFFFFF)
+                            containerColor = Color.LightGray
                         ),
                     border = BorderStroke(
                         width = 2.dp,
@@ -117,7 +123,7 @@ fun InitialScreen() {
                     onClick = {},
                     colors = ButtonDefaults
                         .buttonColors(
-                            containerColor = Color(0xFFFFFFFF)
+                            containerColor = Color.DarkGray
                         ),
                     border = BorderStroke(
                         width = 2.dp,
@@ -132,7 +138,7 @@ fun InitialScreen() {
                         fontSize = 20.sp,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF000000)
+                        color = Color(0xFFFFFFFF)
                     )
                 }
 
@@ -151,6 +157,7 @@ fun InitialScreen() {
                     ),
                     modifier = Modifier
                         .size(width = 300.dp, height = 80.dp)
+                        .padding(top=20.dp)
                 ) {
                     Text(
                         text = """Entrar anonimamente""",
