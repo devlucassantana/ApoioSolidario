@@ -88,10 +88,18 @@ val Typography= Typography(
     ),
     displayMedium = TextStyle(
         fontFamily = ralewayFamily,
-        fontWeight = FontWeight.Normal,
-        fontSize = 44.sp,
+        fontWeight = FontWeight.Bold,
+        fontSize = 64.sp,
         lineHeight = 68.sp,
-        letterSpacing = 0.sp
+        letterSpacing = 0.5.sp
+
+    ),
+    displaySmall = TextStyle(
+        fontFamily = ralewayFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 100.sp,
+        letterSpacing = 0.5.sp
 
     ),
 )

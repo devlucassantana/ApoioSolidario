@@ -4,7 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import dev.lucassantana.apoiosolidario.screens.HomeScreen
 import dev.lucassantana.apoiosolidario.screens.InitialScreen
+import dev.lucassantana.apoiosolidario.screens.LoginScreen
+import dev.lucassantana.apoiosolidario.screens.SignupScreen
 import dev.lucassantana.apoiosolidario.ui.theme.ApoioSolidarioTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +16,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ApoioSolidarioTheme {
-                InitialScreen()
+                //InitialScreen()
+                //SignupScreen()
+                //LoginScreen()
+                HomeScreen()
             }
         }
     }

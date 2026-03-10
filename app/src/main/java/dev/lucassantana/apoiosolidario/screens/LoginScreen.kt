@@ -1,9 +1,6 @@
 package dev.lucassantana.apoiosolidario.screens
 
-import androidx.compose.ui.graphics.Color
-import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,46 +11,32 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import dev.lucassantana.apoiosolidario.R
-import dev.lucassantana.apoiosolidario.ui.theme.ApoioSolidarioTheme
-import dev.lucassantana.apoiosolidario.ui.theme.ralewayFamily
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Mail
-import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.RemoveRedEye
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LeadingIconTab
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import dev.lucassantana.apoiosolidario.R
 import dev.lucassantana.apoiosolidario.ui.theme.ApoioSolidarioTheme
 
 @Composable
-fun SignupScreen(modifier: Modifier= Modifier){
+fun LoginScreen(modifier: Modifier= Modifier){
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -63,42 +46,43 @@ fun SignupScreen(modifier: Modifier= Modifier){
     ){
         Column (
             modifier= Modifier
+                .padding(32.dp)
                 .fillMaxSize()
+                .fillMaxWidth()
                 .align(alignment = Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ){
-            TitleSignup()
-            Spacer(modifier = Modifier.height(40.dp))
-            UserImage()
-            SignUpUserForm()
+            TitleLogin()
+            LoginUserForm()
+
+
         }
     }
-
 }
 
-@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(showBackground = true)
 @Composable
-private fun SignUpScreenPreview() {
+private fun LoginScreenPreview() {
     ApoioSolidarioTheme() {
-        SignupScreen()
+        LoginScreen()
     }
-    
+
 }
 
 @Composable
-fun TitleSignup(modifier: Modifier= Modifier){
+fun TitleLogin(modifier: Modifier= Modifier){
     Column (
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Text(
-            text = stringResource(R.string.sign_up),
+            text = stringResource(R.string.login),
             color = MaterialTheme.colorScheme.tertiary,
             style = MaterialTheme.typography.titleLarge
         )
         Text(
-            text = stringResource(R.string.create_new_account),
+            text = stringResource(R.string.login_caption),
             color = MaterialTheme.colorScheme.tertiary,
             style = MaterialTheme.typography.titleSmall
         )
@@ -106,63 +90,12 @@ fun TitleSignup(modifier: Modifier= Modifier){
 }
 
 @Composable
-fun UserImage(modifier: Modifier = Modifier) {
-    Box(
-        modifier= Modifier
-            .size(120.dp)
-    ){
-        Image(
-            painter = painterResource(R.drawable.usericon),
-            contentDescription = stringResource(R.string.user_image),
-            modifier= Modifier
-                .size(110.dp)
-                .align(alignment = Alignment.Center)
-        )
-        Icon(
-            imageVector = Icons.Default.AddAPhoto,
-            contentDescription = stringResource(R.string.image_icon),
-            tint = MaterialTheme.colorScheme.tertiary,
-            modifier = Modifier
-                .align(alignment= Alignment.BottomEnd),
-        )
-
-    }
-    
-}
-
-@Composable
-fun SignUpUserForm(modifier: Modifier = Modifier) {
+fun LoginUserForm(modifier: Modifier = Modifier) {
     Column(
         modifier= Modifier
             .fillMaxWidth()
             .padding(32.dp)
     ) {
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            modifier = Modifier
-                .fillMaxWidth(),
-            label = {
-                Text(
-                    text = stringResource(R.string.your_name),
-                    style = MaterialTheme.typography.labelSmall
-                )
-            },
-            shape = CircleShape,
-            colors = OutlinedTextFieldDefaults
-                .colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.secondary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.tertiary
-                ),
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = stringResource(R.string.person_icon),
-                    tint = MaterialTheme.colorScheme.tertiary
-                )
-            }
-        )
-
         OutlinedTextField(
             value = "",
             onValueChange = {},
@@ -238,32 +171,30 @@ fun SignUpUserForm(modifier: Modifier = Modifier) {
                 .height(48.dp)
         ) {
             Text(
-                text = stringResource(R.string.create_account),
+                text = stringResource(R.string.login_button_screen),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.surface
             )
         }
-        Spacer(modifier= Modifier.height(32.dp))
-        Button(
-            onClick = {},
-            colors = ButtonDefaults
-                .buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary
-                ),
-            border = BorderStroke(
-                width = 2.dp,
-                color = MaterialTheme.colorScheme.surface
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp)
+        Row (modifier=Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End
         ) {
             Text(
-                text = stringResource(R.string.anonymous_button),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.surface
+                text = stringResource(R.string.account_confirmation),
+                color = MaterialTheme.colorScheme.secondary,
+                style = MaterialTheme.typography.bodyMedium
             )
+            TextButton(
+                onClick =   {}
+            ) {
+                Text(
+                    text= stringResource(R.string.sign_up),
+                    color = MaterialTheme.colorScheme.tertiary,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
-    
 }

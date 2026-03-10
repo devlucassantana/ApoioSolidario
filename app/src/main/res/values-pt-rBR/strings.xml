@@ -6,4 +6,20 @@
     <string name="login_button">Entrar</string>
     <string name="signup_button">Cadastrar</string>
     <string name="anonymous_button">Entrar anonimamente</string>
+    <string name="sign_up">Registrar-se</string>
+    <string name="create_new_account">Crie uma nova conta</string>
+    <string name="user_image">imagem_de_usuário</string>
+    <string name="image_icon">icone_de_imagem</string>
+    <string name="your_name">Digite o seu nome</string>
+    <string name="person_icon">icone de pessoa</string>
+    <string name="your_email">Digite seu e-mail</string>
+    <string name="mail_icon">icone de email</string>
+    <string name="password">Digite sua senha</string>
+    <string name="pass_icon">icone de cadeado</string>
+    <string name="show_pass">mostrar senha</string>
+    <string name="create_account">Criar nova conta</string>
+    <string name="login">Entrar</string>
+    <string name="login_caption">Entre em sua conta para continuar</string>
+    <string name="login_button_screen">Entrar em sua conta</string>
+    <string name="account_confirmation">Não possuí uma conta?</string>
 </resources>
