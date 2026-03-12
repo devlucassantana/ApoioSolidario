@@ -94,12 +94,12 @@ fun TitleSignup(modifier: Modifier= Modifier){
     ){
         Text(
             text = stringResource(R.string.sign_up),
-            color = MaterialTheme.colorScheme.tertiary,
+            color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleLarge
         )
         Text(
             text = stringResource(R.string.create_new_account),
-            color = MaterialTheme.colorScheme.tertiary,
+            color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleSmall
         )
     }
@@ -152,13 +152,13 @@ fun SignUpUserForm(modifier: Modifier = Modifier) {
             colors = OutlinedTextFieldDefaults
                 .colors(
                     focusedBorderColor = MaterialTheme.colorScheme.secondary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.tertiary
+                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurface
                 ),
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Person,
                     contentDescription = stringResource(R.string.person_icon),
-                    tint = MaterialTheme.colorScheme.tertiary
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
         )
@@ -178,13 +178,13 @@ fun SignUpUserForm(modifier: Modifier = Modifier) {
             colors = OutlinedTextFieldDefaults
                 .colors(
                     focusedBorderColor = MaterialTheme.colorScheme.secondary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.tertiary
+                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurface
                 ),
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Mail,
                     contentDescription = stringResource(R.string.mail_icon),
-                    tint = MaterialTheme.colorScheme.tertiary
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
         )
@@ -204,20 +204,20 @@ fun SignUpUserForm(modifier: Modifier = Modifier) {
             colors = OutlinedTextFieldDefaults
                 .colors(
                     focusedBorderColor = MaterialTheme.colorScheme.secondary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.tertiary
+                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurface
                 ),
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Lock,
                     contentDescription = stringResource(R.string.pass_icon),
-                    tint = MaterialTheme.colorScheme.tertiary
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             },
             trailingIcon = {
                 Icon(
                     imageVector = Icons.Default.RemoveRedEye,
                     contentDescription = stringResource(R.string.show_pass),
-                    tint = MaterialTheme.colorScheme.tertiary
+                    tint = MaterialTheme.colorScheme.secondary
                 )
             }
         )
@@ -231,7 +231,7 @@ fun SignUpUserForm(modifier: Modifier = Modifier) {
                 ),
             border = BorderStroke(
                 width = 2.dp,
-                color = MaterialTheme.colorScheme.surface
+                color = MaterialTheme.colorScheme.onSurface
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -240,7 +240,7 @@ fun SignUpUserForm(modifier: Modifier = Modifier) {
             Text(
                 text = stringResource(R.string.create_account),
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.surface
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
         Spacer(modifier= Modifier.height(32.dp))
@@ -252,7 +252,7 @@ fun SignUpUserForm(modifier: Modifier = Modifier) {
                 ),
             border = BorderStroke(
                 width = 2.dp,
-                color = MaterialTheme.colorScheme.surface
+                color = MaterialTheme.colorScheme.onSurface
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -261,7 +261,7 @@ fun SignUpUserForm(modifier: Modifier = Modifier) {
             Text(
                 text = stringResource(R.string.anonymous_button),
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.surface
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }

@@ -1,25 +1,37 @@
 package dev.lucassantana.apoiosolidario.screens
 
+import android.R.attr.width
 import android.content.res.Configuration
 import android.icu.text.CaseMap
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.AutoAwesomeMosaic
 import androidx.compose.material.icons.filled.FamilyRestroom
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Mail
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,6 +40,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -37,12 +52,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.lucassantana.apoiosolidario.R
 import dev.lucassantana.apoiosolidario.ui.theme.ApoioSolidarioTheme
+import dev.lucassantana.apoiosolidario.ui.theme.ralewayFamily
+
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     Surface(
@@ -54,10 +75,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             bottomBar = {MyBottomAppBar()},
             floatingActionButton = {MyFloatingActionButtom()},
         ){paddingValues ->
-            Column(
-                modifier= Modifier
-                    .padding(paddingValues)
-            ) { }
+            ScreenContent(modifier = Modifier.padding(paddingValues))
         }
     }
 }
@@ -170,6 +188,7 @@ fun MyFloatingActionButtom(modifier: Modifier = Modifier) {
         onClick = {},
         shape = CircleShape,
         containerColor = MaterialTheme.colorScheme.tertiary,
+
     ) {
         Icon(
             imageVector = Icons.Default.Add,
@@ -177,4 +196,173 @@ fun MyFloatingActionButtom(modifier: Modifier = Modifier) {
         )
     }
     
+}
+
+@Composable
+fun     ScreenContent(modifier: Modifier = Modifier) {
+    Column(modifier = modifier
+            .fillMaxSize()
+        .padding(horizontal = 8.dp)) {
+        OutlinedTextField(
+            value = "",
+            onValueChange = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            label = {
+                Text(
+                    text = "Pesquisar",
+                    style = MaterialTheme.typography.labelSmall
+                )
+            },
+            shape = CircleShape,
+            colors = OutlinedTextFieldDefaults
+                .colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.tertiary,
+                    unfocusedBorderColor = Color.LightGray,
+                    focusedContainerColor = Color.LightGray,
+                    unfocusedContainerColor = Color.Gray
+                ),
+            trailingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "barra de pesquisa",
+                    tint = MaterialTheme.colorScheme.tertiary
+                )
+            }
+        )
+        Spacer(modifier=Modifier.height(12.dp))
+        Column(modifier = Modifier
+            .padding(horizontal = 10.dp)) {
+            Text(
+                text = "Bem-Vindo(a) de volta!",
+                style = MaterialTheme.typography.headlineMedium,
+                fontFamily = ralewayFamily,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier= Modifier.padding(12.dp))
+            Text(
+                text = "Seu impacto até agora:",
+                style = MaterialTheme.typography.headlineMedium,
+                fontFamily = ralewayFamily,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Thin
+            )
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.onSurface,
+                    contentColor = MaterialTheme.colorScheme.primary
+                ),
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(
+                        text = "Seu apoio ajudou -- famílias esse mês",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Start,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+
+                    Text(
+                        text = "Seu progresso mensal: --% da meta de doação",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.primary,
+                        textAlign = TextAlign.Start
+                    )
+                }
+            }
+            Spacer(modifier= Modifier.padding(12.dp))
+            Row(modifier = Modifier
+                .fillMaxWidth()) {
+            Card(
+                modifier = Modifier
+                    .width(170.dp)
+                    .height(120.dp)
+                    .padding(vertical = 8.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.Gray,
+                    contentColor = MaterialTheme.colorScheme.primary
+                ),
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(
+                        text = "Ver matches disponíveis",
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Start,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+                Spacer(modifier= Modifier.padding(12.dp))
+                Card(
+                    modifier = Modifier
+                        .width(170.dp)
+                        .height(120.dp)
+                        .padding(vertical = 8.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.Gray,
+                        contentColor = MaterialTheme.colorScheme.primary,
+
+                    ),
+
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(20.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        Text(
+                            text = "Minhas doações recentes",
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Start,
+                            color = MaterialTheme.colorScheme.primary,
+                        )
+                    }
+                }
+            }
+            Spacer(modifier= Modifier.padding(12.dp))
+            Text(
+                text="Sugestões locais:",
+                color= MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.headlineMedium,
+                fontFamily = ralewayFamily,
+                fontWeight = FontWeight.Bold
+            )
+            Card(
+                modifier= Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth()
+                    .height(116.dp)
+
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.mapacidade),
+                    contentDescription = "Mapa cidade",
+                    modifier= Modifier
+                        .fillMaxWidth(),
+                    contentScale = ContentScale.Crop
+                )
+            }
+        }
+    }
 }

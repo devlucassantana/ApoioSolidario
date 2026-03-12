@@ -61,13 +61,13 @@ fun InitialScreen() {
 
             Text(
                 text = stringResource(R.string.main_title),
-                color = MaterialTheme.colorScheme.surface,
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = stringResource(R.string.subtitle),
-                color = MaterialTheme.colorScheme.surface,
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleSmall,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -86,7 +86,7 @@ fun InitialScreen() {
                         ),
                     border = BorderStroke(
                         width = 2.dp,
-                        color = MaterialTheme.colorScheme.surface
+                        color = MaterialTheme.colorScheme.onSurface
                     ),
                     modifier = Modifier
 
@@ -96,7 +96,7 @@ fun InitialScreen() {
                     Text(
                         text = stringResource(R.string.login_button),
                         textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.surface,
+                        color = MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.labelSmall
                     )
                 }
@@ -109,7 +109,7 @@ fun InitialScreen() {
                         ),
                     border = BorderStroke(
                         width = 2.dp,
-                        color = MaterialTheme.colorScheme.surface
+                        color = MaterialTheme.colorScheme.onSurface
                     ),
                     modifier = Modifier
                         .size(width = 150.dp, 150.dp)
@@ -132,7 +132,7 @@ fun InitialScreen() {
                         ),
                     border = BorderStroke(
                         width = 2.dp,
-                        color = MaterialTheme.colorScheme.surface
+                        color = MaterialTheme.colorScheme.onSurface
                     ),
                     modifier = Modifier
                         .size(width = 300.dp, height = 80.dp)
@@ -141,7 +141,7 @@ fun InitialScreen() {
                     Text(
                         text = stringResource(R.string.anonymous_button),
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.surface
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }

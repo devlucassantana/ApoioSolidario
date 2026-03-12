@@ -78,12 +78,12 @@ fun TitleLogin(modifier: Modifier= Modifier){
     ){
         Text(
             text = stringResource(R.string.login),
-            color = MaterialTheme.colorScheme.tertiary,
+            color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleLarge
         )
         Text(
             text = stringResource(R.string.login_caption),
-            color = MaterialTheme.colorScheme.tertiary,
+            color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleSmall
         )
     }
@@ -111,46 +111,46 @@ fun LoginUserForm(modifier: Modifier = Modifier) {
             colors = OutlinedTextFieldDefaults
                 .colors(
                     focusedBorderColor = MaterialTheme.colorScheme.secondary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.tertiary
+                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurface
                 ),
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Mail,
                     contentDescription = stringResource(R.string.mail_icon),
-                    tint = MaterialTheme.colorScheme.tertiary
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
         )
 
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            modifier = Modifier
-                .fillMaxWidth(),
-            label = {
-                Text(
-                    text = stringResource(R.string.password),
-                    style = MaterialTheme.typography.labelSmall
-                )
+            OutlinedTextField(
+                value = "",
+                onValueChange = {},
+                modifier = Modifier
+                    .fillMaxWidth(),
+                label = {
+                    Text(
+                        text = stringResource(R.string.password),
+                        style = MaterialTheme.typography.labelSmall
+                    )
             },
             shape = CircleShape,
             colors = OutlinedTextFieldDefaults
                 .colors(
                     focusedBorderColor = MaterialTheme.colorScheme.secondary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.tertiary
+                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurface
                 ),
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Lock,
                     contentDescription = stringResource(R.string.pass_icon),
-                    tint = MaterialTheme.colorScheme.tertiary
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             },
             trailingIcon = {
                 Icon(
                     imageVector = Icons.Default.RemoveRedEye,
                     contentDescription = stringResource(R.string.show_pass),
-                    tint = MaterialTheme.colorScheme.tertiary
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
         )
@@ -164,7 +164,7 @@ fun LoginUserForm(modifier: Modifier = Modifier) {
                 ),
             border = BorderStroke(
                 width = 2.dp,
-                color = MaterialTheme.colorScheme.surface
+                color = MaterialTheme.colorScheme.onSurface
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -173,7 +173,7 @@ fun LoginUserForm(modifier: Modifier = Modifier) {
             Text(
                 text = stringResource(R.string.login_button_screen),
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.surface
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
         Row (modifier=Modifier.fillMaxWidth(),
@@ -182,7 +182,7 @@ fun LoginUserForm(modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = stringResource(R.string.account_confirmation),
-                color = MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.colorScheme.tertiary,
                 style = MaterialTheme.typography.bodyMedium
             )
             TextButton(
@@ -190,7 +190,7 @@ fun LoginUserForm(modifier: Modifier = Modifier) {
             ) {
                 Text(
                     text= stringResource(R.string.sign_up),
-                    color = MaterialTheme.colorScheme.tertiary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Bold
                 )
