@@ -22,4 +22,5 @@
     <string name="login_caption">Entre em sua conta para continuar</string>
     <string name="login_button_screen">Entrar em sua conta</string>
     <string name="account_confirmation">Não possuí uma conta?</string>
+    <string name="authentication_error">Erro de autenticação</string>
 </resources>

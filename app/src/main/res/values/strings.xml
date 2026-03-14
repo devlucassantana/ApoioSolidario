@@ -38,5 +38,6 @@
     <string name="direct_donation">Doação Direta</string>
     <string name="donation_targets2">Apoiar uma pessoa ou família</string>
     <string name="donation_list2">Permite selecionar um perfil dentro do app e contribuir diretamente com doações recorrentes ou pontuais.</string>
+    <string name="authentication_error">Erro de autenticação</string>
 
 </resources>

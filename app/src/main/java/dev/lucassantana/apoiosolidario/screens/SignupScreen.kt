@@ -62,7 +62,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dev.lucassantana.apoiosolidario.model.User
 import dev.lucassantana.apoiosolidario.navigation.Destino
+import dev.lucassantana.apoiosolidario.repository.RoomUserRepository
 import dev.lucassantana.apoiosolidario.repository.SharedPreferencesUserRepository
+import dev.lucassantana.apoiosolidario.utils.convertBitmapToByteArray
 
 @Composable
 fun SignupScreen(navController: NavHostController) {
@@ -211,7 +213,8 @@ fun SignUpUserForm(navController: NavHostController, profileImage: Bitmap) {
 
 
 
-    val userRepository = SharedPreferencesUserRepository(context = LocalContext.current)
+    //val userRepository = SharedPreferencesUserRepository(context = LocalContext.current)
+    val userRepository = RoomUserRepository(context = LocalContext.current)
 
 
     Column(
@@ -368,7 +371,8 @@ fun SignUpUserForm(navController: NavHostController, profileImage: Bitmap) {
                         User(
                             name=name,
                             email=email,
-                            password=password
+                            password=password,
+                            userImage = convertBitmapToByteArray(profileImage)
                         )
                     )
                     showDialogSuccess = true

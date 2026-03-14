@@ -28,7 +28,7 @@ class SharedPreferencesUserRepository (context: Context): UserRepository {
         TODO("Not yet implemented")
     }
 
-    override fun getUserByEmail(email: String): User? {
+    override fun getUserByEmail(email: String?): User? {
         TODO("Not yet implemented")
     }
 

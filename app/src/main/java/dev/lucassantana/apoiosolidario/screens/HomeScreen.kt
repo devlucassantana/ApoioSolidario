@@ -1,5 +1,6 @@
 package dev.lucassantana.apoiosolidario.screens
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,11 +40,17 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -53,9 +60,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import dev.lucassantana.apoiosolidario.R
 import dev.lucassantana.apoiosolidario.components.CategoryItem
+import dev.lucassantana.apoiosolidario.repository.RoomUserRepository
+import dev.lucassantana.apoiosolidario.repository.UserRepository
 import dev.lucassantana.apoiosolidario.repository.getAllCategories
 import dev.lucassantana.apoiosolidario.ui.theme.ApoioSolidarioTheme
 import dev.lucassantana.apoiosolidario.ui.theme.ralewayFamily
+import dev.lucassantana.apoiosolidario.utils.convertByteArrayToBitmap
 
 @Composable
 fun HomeScreen(navController: NavController, email: String?) {
@@ -84,6 +94,19 @@ private fun HomeScreenPreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTopAppBar(email: String?) {
+
+    val userRepository: UserRepository=
+        RoomUserRepository(context= LocalContext.current)
+
+    val user=userRepository.getUserByEmail(email)
+
+    var profileBitmap by remember {
+        mutableStateOf<Bitmap>(
+            convertByteArrayToBitmap(user!!.userImage!!)
+        )
+    }
+
+
     TopAppBar(
         modifier = Modifier
             .background(
@@ -101,13 +124,13 @@ fun MyTopAppBar(email: String?) {
             ){
                 Column {
                     Text(
-                        text= "Olá, Usuário!",
+                        text= "Olá, ${user!!.name}!",
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = email!!,
+                        text = "${user!!.email}",
                         style = MaterialTheme.typography.displaySmall,
                         color= MaterialTheme.colorScheme.primary
                     )
@@ -125,9 +148,10 @@ fun MyTopAppBar(email: String?) {
                     )
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.usericon),
-                        contentDescription = "icone do usuario",
-                        modifier = Modifier
+                        bitmap = profileBitmap.asImageBitmap(),
+                        contentDescription = "Imagem de perfil",
+                        modifier= Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
                     )
                 }
             }
