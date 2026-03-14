@@ -29,12 +29,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import dev.lucassantana.apoiosolidario.R
+import dev.lucassantana.apoiosolidario.navigation.Destino
 import dev.lucassantana.apoiosolidario.ui.theme.ApoioSolidarioTheme
 import dev.lucassantana.apoiosolidario.ui.theme.ralewayFamily
 
 @Composable
-fun InitialScreen() {
+fun InitialScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -79,7 +82,9 @@ fun InitialScreen() {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(Destino.LoginScreen.route)
+                    },
                     colors = ButtonDefaults
                         .buttonColors(
                             containerColor = MaterialTheme.colorScheme.secondary
@@ -102,7 +107,9 @@ fun InitialScreen() {
                 }
                 Spacer(modifier = Modifier.width(10.dp))
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(Destino.SignupScreen.route)
+                    },
                     colors = ButtonDefaults
                         .buttonColors(
                             containerColor = MaterialTheme.colorScheme.tertiary
@@ -125,7 +132,9 @@ fun InitialScreen() {
             Spacer(modifier = Modifier.height(50.dp))
             Row() {
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(Destino.HomeScreen.route)
+                    },
                     colors = ButtonDefaults
                         .buttonColors(
                             containerColor = MaterialTheme.colorScheme.primary
@@ -149,7 +158,6 @@ fun InitialScreen() {
     }
 }
 
-
 @Composable
 @Preview(
     showSystemUi = true,
@@ -158,6 +166,6 @@ fun InitialScreen() {
 )
 fun InitialScreenPreview(){
     ApoioSolidarioTheme{
-        InitialScreen()
+        InitialScreen(rememberNavController())
     }
 }

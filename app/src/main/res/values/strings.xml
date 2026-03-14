@@ -21,4 +21,22 @@
     <string name="login_caption">Entre em sua conta para continuar</string>
     <string name="login_button_screen">Entrar em sua conta</string>
     <string name="account_confirmation">Não possuí uma conta?</string>
+    <string name="profile_title">Perfil do Doador</string>
+    <string name="user_name">Lucas Santana</string>
+    <string name="user_bio_title">Sobre mim</string>
+    <string name="user_bio_default">Entusiasta de projetos sociais focado em promover a equidade e inclusão na nossa comunidade.</string>
+    <string name="user_bio_title2">Objetivo</string>
+    <string name="user_bio_default2">Tenho disponibilidade para fazer doações mensais de cestas básicas na cidade de São Paulo.</string>
+    <string name="location_label">Localização</string>
+    <string name="location_value">São Paulo, Brasil</string>
+    <string name="donate_button">Fazer Doação</string>
+    <string name="ask_for_help_button">Fazer Solicitação</string>
+    <string name="anonimous_donation">Doações Anônimas</string>
+    <string name="donation_targets">Doação para Instituições/Causas</string>
+    <string name="donation_list">Lista de causas/instituições (ex: ONGs como Aldeias Infantis). Doação sem especificar beneficiário direto, via link externo.</string>
+    <string name="donation_button">Doar agora</string>
+    <string name="direct_donation">Doação Direta</string>
+    <string name="donation_targets2">Apoiar uma pessoa ou família</string>
+    <string name="donation_list2">Permite selecionar um perfil dentro do app e contribuir diretamente com doações recorrentes ou pontuais.</string>
+
 </resources>

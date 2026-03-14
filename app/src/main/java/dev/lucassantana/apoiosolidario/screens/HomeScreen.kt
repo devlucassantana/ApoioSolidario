@@ -1,37 +1,30 @@
 package dev.lucassantana.apoiosolidario.screens
 
-import android.R.attr.width
-import android.content.res.Configuration
-import android.icu.text.CaseMap
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.AutoAwesomeMosaic
 import androidx.compose.material.icons.filled.FamilyRestroom
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Mail
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,7 +33,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -54,24 +46,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import dev.lucassantana.apoiosolidario.R
+import dev.lucassantana.apoiosolidario.components.CategoryItem
+import dev.lucassantana.apoiosolidario.repository.getAllCategories
 import dev.lucassantana.apoiosolidario.ui.theme.ApoioSolidarioTheme
 import dev.lucassantana.apoiosolidario.ui.theme.ralewayFamily
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(navController: NavController, email: String?) {
     Surface(
         modifier = Modifier
             .fillMaxSize()
     ) {
         Scaffold(
-            topBar = {MyTopAppBar()},
+            topBar = {MyTopAppBar(email!!)},
             bottomBar = {MyBottomAppBar()},
             floatingActionButton = {MyFloatingActionButtom()},
         ){paddingValues ->
@@ -84,13 +78,13 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun HomeScreenPreview() {
     ApoioSolidarioTheme() {
-        HomeScreen()
+        HomeScreen(rememberNavController(), email = "")
     }
 
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTopAppBar(modifier: Modifier = Modifier) {
+fun MyTopAppBar(email: String?) {
     TopAppBar(
         modifier = Modifier
             .background(
@@ -114,7 +108,7 @@ fun MyTopAppBar(modifier: Modifier = Modifier) {
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "usuario@email.com",
+                        text = email!!,
                         style = MaterialTheme.typography.displaySmall,
                         color= MaterialTheme.colorScheme.primary
                     )
@@ -195,20 +189,23 @@ fun MyFloatingActionButtom(modifier: Modifier = Modifier) {
             contentDescription = "Botão Adicionar"
         )
     }
-    
+
 }
 
 @Composable
-fun     ScreenContent(modifier: Modifier = Modifier) {
+fun ScreenContent(modifier: Modifier = Modifier) {
+
+    val categories = getAllCategories()
+
     Column(modifier = modifier
             .fillMaxSize()
-        .padding(horizontal = 8.dp)) {
+        .padding(horizontal = 0.dp)) {
         OutlinedTextField(
             value = "",
             onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
+                .padding(horizontal = 12.dp, vertical = 8.dp),
             label = {
                 Text(
                     text = "Pesquisar",
@@ -281,63 +278,14 @@ fun     ScreenContent(modifier: Modifier = Modifier) {
                     )
                 }
             }
-            Spacer(modifier= Modifier.padding(12.dp))
-            Row(modifier = Modifier
-                .fillMaxWidth()) {
-            Card(
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(15.dp),
                 modifier = Modifier
-                    .width(170.dp)
-                    .height(120.dp)
-                    .padding(vertical = 8.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.Gray,
-                    contentColor = MaterialTheme.colorScheme.primary
-                ),
+
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text(
-                        text = "Ver matches disponíveis",
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Start,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
-            }
-                Spacer(modifier= Modifier.padding(12.dp))
-                Card(
-                    modifier = Modifier
-                        .width(170.dp)
-                        .height(120.dp)
-                        .padding(vertical = 8.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.Gray,
-                        contentColor = MaterialTheme.colorScheme.primary,
-
-                    ),
-
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(20.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        Text(
-                            text = "Minhas doações recentes",
-                            style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Start,
-                            color = MaterialTheme.colorScheme.primary,
-                        )
-                    }
+                items(categories){ category ->
+                    CategoryItem(category)
                 }
             }
             Spacer(modifier= Modifier.padding(12.dp))

@@ -1,21 +1,20 @@
 package dev.lucassantana.apoiosolidario.screens
 
-import androidx.compose.ui.graphics.Color
+import android.R.attr.onClick
 import android.content.res.Configuration
+import android.util.Patterns
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -25,35 +24,38 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.lucassantana.apoiosolidario.R
 import dev.lucassantana.apoiosolidario.ui.theme.ApoioSolidarioTheme
-import dev.lucassantana.apoiosolidario.ui.theme.ralewayFamily
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Mail
-import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.RemoveRedEye
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LeadingIconTab
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import dev.lucassantana.apoiosolidario.ui.theme.ApoioSolidarioTheme
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.ActivityNavigator
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import dev.lucassantana.apoiosolidario.model.User
+import dev.lucassantana.apoiosolidario.navigation.Destino
+import dev.lucassantana.apoiosolidario.repository.SharedPreferencesUserRepository
 
 @Composable
-fun SignupScreen(modifier: Modifier= Modifier){
+fun SignupScreen(navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -71,7 +73,7 @@ fun SignupScreen(modifier: Modifier= Modifier){
             TitleSignup()
             Spacer(modifier = Modifier.height(40.dp))
             UserImage()
-            SignUpUserForm()
+            SignUpUserForm(navController)
         }
     }
 
@@ -81,7 +83,7 @@ fun SignupScreen(modifier: Modifier= Modifier){
 @Composable
 private fun SignUpScreenPreview() {
     ApoioSolidarioTheme() {
-        SignupScreen()
+        SignupScreen(rememberNavController())
     }
     
 }
@@ -131,15 +133,53 @@ fun UserImage(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SignUpUserForm(modifier: Modifier = Modifier) {
+fun SignUpUserForm(navController: NavHostController) {
+
+    var name by remember{
+        mutableStateOf("")
+    }
+    var email by remember{
+        mutableStateOf("")
+    }
+    var password by remember{
+        mutableStateOf("")
+    }
+
+    var isNameError by remember{
+        mutableStateOf(false)
+    }
+    var isEmailError by remember{
+        mutableStateOf(false)
+    }
+    var isPasswordError by remember{
+        mutableStateOf(false)
+    }
+
+    var showDialogError by remember{ mutableStateOf(false) }
+    var showDialogSuccess by remember{ mutableStateOf(false) }
+
+    fun validate():Boolean{
+        isNameError = name.trim().length < 3
+        isNameError = email.length<3 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        isPasswordError = password.length<6
+        return !isNameError && !isEmailError && !isPasswordError
+    }
+
+
+
+    val userRepository = SharedPreferencesUserRepository(context = LocalContext.current)
+
+
     Column(
         modifier= Modifier
             .fillMaxWidth()
             .padding(32.dp)
     ) {
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = name,
+            onValueChange = {
+                name=it
+            },
             modifier = Modifier
                 .fillMaxWidth(),
             label = {
@@ -160,12 +200,33 @@ fun SignUpUserForm(modifier: Modifier = Modifier) {
                     contentDescription = stringResource(R.string.person_icon),
                     tint = MaterialTheme.colorScheme.onSurface
                 )
+            },
+            isError = isNameError,
+            trailingIcon = {
+                if (isNameError){
+                    Icon(
+                        imageVector = Icons.Default.Error,
+                        contentDescription = "Error",
+                        tint= MaterialTheme.colorScheme.error
+                    )
+                }
+            },
+            supportingText = {
+                if (isNameError){
+                    Text(
+                        text = "Nome precisa ter pelo menos 3 caracteres",
+                        color = MaterialTheme.colorScheme.error,
+                        textAlign = TextAlign.End
+                    )
+                }
             }
         )
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = email,
+            onValueChange = {
+                email=it
+            },
             modifier = Modifier
                 .fillMaxWidth(),
             label = {
@@ -186,12 +247,33 @@ fun SignUpUserForm(modifier: Modifier = Modifier) {
                     contentDescription = stringResource(R.string.mail_icon),
                     tint = MaterialTheme.colorScheme.onSurface
                 )
+            },
+            isError = isEmailError,
+            trailingIcon = {
+                if (isEmailError){
+                    Icon(
+                        imageVector = Icons.Default.Error,
+                        contentDescription = "Error",
+                        tint= MaterialTheme.colorScheme.error
+                    )
+                }
+            },
+            supportingText = {
+                if (isEmailError){
+                    Text(
+                        text = "Email precisa ter pelo menos 3 caracteres",
+                        color = MaterialTheme.colorScheme.error,
+                        textAlign = TextAlign.End
+                    )
+                }
             }
         )
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = password,
+            onValueChange = {
+                password=it
+            },
             modifier = Modifier
                 .fillMaxWidth(),
             label = {
@@ -213,18 +295,44 @@ fun SignUpUserForm(modifier: Modifier = Modifier) {
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             },
+            isError = isPasswordError,
             trailingIcon = {
-                Icon(
-                    imageVector = Icons.Default.RemoveRedEye,
-                    contentDescription = stringResource(R.string.show_pass),
-                    tint = MaterialTheme.colorScheme.secondary
-                )
+                if (isPasswordError){
+                    Icon(
+                        imageVector = Icons.Default.Error,
+                        contentDescription = "Error",
+                        tint= MaterialTheme.colorScheme.error
+                    )
+                }
+            },
+            supportingText = {
+                if (isPasswordError){
+                    Text(
+                        text = "Senha precisa ter pelo menos 3 caracteres",
+                        color = MaterialTheme.colorScheme.error,
+                        textAlign = TextAlign.End
+                    )
+                }
             }
         )
         Spacer(modifier= Modifier.height(32.dp))
 
         Button(
-            onClick = {},
+            onClick = {
+                if(validate()){
+                    userRepository.saveUser(
+                        User(
+                            name=name,
+                            email=email,
+                            password=password
+                        )
+                    )
+                    showDialogSuccess = true
+                }
+                else{
+                    showDialogError = true
+                }
+                      },
             colors = ButtonDefaults
                 .buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary
@@ -245,7 +353,9 @@ fun SignUpUserForm(modifier: Modifier = Modifier) {
         }
         Spacer(modifier= Modifier.height(32.dp))
         Button(
-            onClick = {},
+            onClick = {
+                navController.navigate(Destino.HomeScreen.route)
+            },
             colors = ButtonDefaults
                 .buttonColors(
                     containerColor = MaterialTheme.colorScheme.secondary
@@ -264,6 +374,36 @@ fun SignUpUserForm(modifier: Modifier = Modifier) {
                 color = MaterialTheme.colorScheme.onSurface
             )
         }
+    }
+
+
+    if (showDialogSuccess){
+        AlertDialog(
+            onDismissRequest = {showDialogError = false},
+            title = {Text(text="Sucesso")},
+            text = {Text(text = "Conta registrada com sucesso")},
+            confirmButton = {
+                TextButton(onClick={
+                    navController.navigate(Destino.LoginScreen.route)
+                }
+                ){Text(text="Ok")}
+
+            }
+        )
+    }
+
+
+    if (showDialogError){
+        AlertDialog(
+            onDismissRequest = {showDialogError = false},
+            title = {Text(text="Erro")},
+            text = {Text(text = "Preencha todos os campos corretamente")},
+            confirmButton = {
+                TextButton(onClick={showDialogError = false}
+        ){Text(text="Ok")}
+
+            }
+        )
     }
     
 }

@@ -15,7 +15,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Mail
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -26,17 +25,25 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import dev.lucassantana.apoiosolidario.R
+import dev.lucassantana.apoiosolidario.navigation.Destino
 import dev.lucassantana.apoiosolidario.ui.theme.ApoioSolidarioTheme
 
 @Composable
-fun LoginScreen(modifier: Modifier= Modifier){
+fun LoginScreen(navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -54,7 +61,7 @@ fun LoginScreen(modifier: Modifier= Modifier){
             verticalArrangement = Arrangement.Center
         ){
             TitleLogin()
-            LoginUserForm()
+            LoginUserForm(navController)
 
 
         }
@@ -65,7 +72,7 @@ fun LoginScreen(modifier: Modifier= Modifier){
 @Composable
 private fun LoginScreenPreview() {
     ApoioSolidarioTheme() {
-        LoginScreen()
+        LoginScreen(rememberNavController())
     }
 
 }
@@ -90,15 +97,25 @@ fun TitleLogin(modifier: Modifier= Modifier){
 }
 
 @Composable
-fun LoginUserForm(modifier: Modifier = Modifier) {
+fun LoginUserForm(navController: NavController) {
+
+    var email by remember{
+        mutableStateOf("")
+    }
+    var password by remember{
+        mutableStateOf("")
+    }
+
     Column(
         modifier= Modifier
             .fillMaxWidth()
             .padding(32.dp)
     ) {
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = email,
+            onValueChange = {emailValue ->
+                email = emailValue
+            },
             modifier = Modifier
                 .fillMaxWidth(),
             label = {
@@ -123,8 +140,10 @@ fun LoginUserForm(modifier: Modifier = Modifier) {
         )
 
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = password,
+                onValueChange = {passwordValue->
+                    password = passwordValue
+                },
                 modifier = Modifier
                     .fillMaxWidth(),
                 label = {
@@ -157,7 +176,9 @@ fun LoginUserForm(modifier: Modifier = Modifier) {
         Spacer(modifier= Modifier.height(32.dp))
 
         Button(
-            onClick = {},
+            onClick = {
+                navController.navigate(Destino.HomeScreen.route)
+            },
             colors = ButtonDefaults
                 .buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary
@@ -186,7 +207,9 @@ fun LoginUserForm(modifier: Modifier = Modifier) {
                 style = MaterialTheme.typography.bodyMedium
             )
             TextButton(
-                onClick =   {}
+                onClick = {
+                    navController.navigate(Destino.SignupScreen.route)
+                }
             ) {
                 Text(
                     text= stringResource(R.string.sign_up),
