@@ -1,11 +1,21 @@
 package dev.lucassantana.apoiosolidario.screens
 
-import android.R.attr.onClick
 import android.content.res.Configuration
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Patterns
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,7 +45,6 @@ import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -45,9 +54,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dev.lucassantana.apoiosolidario.model.User
@@ -56,6 +66,37 @@ import dev.lucassantana.apoiosolidario.repository.SharedPreferencesUserRepositor
 
 @Composable
 fun SignupScreen(navController: NavHostController) {
+
+    val context = LocalContext.current
+    val placeholderImage= BitmapFactory
+        .decodeResource(
+            Resources.getSystem(),
+            android.R.drawable.ic_menu_gallery
+        )
+    var profileImage by remember {
+        mutableStateOf<Bitmap>(placeholderImage)
+    }
+    val launcher = rememberLauncherForActivityResult(
+        contract= ActivityResultContracts.GetContent()
+    ) { uri ->
+        if (Build.VERSION.SDK_INT < 28) {
+            profileImage = MediaStore
+                .Images
+                .Media
+                .getBitmap(
+                    context.contentResolver,
+                    uri
+                )
+        } else {
+            if (uri != null) {
+                val source = ImageDecoder.createSource(context.contentResolver, uri)
+                profileImage = ImageDecoder.decodeBitmap(source)
+            } else {
+                profileImage = placeholderImage
+            }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -72,8 +113,8 @@ fun SignupScreen(navController: NavHostController) {
         ){
             TitleSignup()
             Spacer(modifier = Modifier.height(40.dp))
-            UserImage()
-            SignUpUserForm(navController)
+            UserImage(profileImage, launcher)
+            SignUpUserForm(navController,profileImage)
         }
     }
 
@@ -108,15 +149,16 @@ fun TitleSignup(modifier: Modifier= Modifier){
 }
 
 @Composable
-fun UserImage(modifier: Modifier = Modifier) {
+fun UserImage(profileImage: Bitmap, launcher: ManagedActivityResultLauncher<String, Uri?>) {
     Box(
         modifier= Modifier
             .size(120.dp)
     ){
         Image(
-            painter = painterResource(R.drawable.usericon),
+            bitmap = profileImage.asImageBitmap(),
             contentDescription = stringResource(R.string.user_image),
             modifier= Modifier
+                .clip(CircleShape)
                 .size(110.dp)
                 .align(alignment = Alignment.Center)
         )
@@ -125,7 +167,10 @@ fun UserImage(modifier: Modifier = Modifier) {
             contentDescription = stringResource(R.string.image_icon),
             tint = MaterialTheme.colorScheme.tertiary,
             modifier = Modifier
-                .align(alignment= Alignment.BottomEnd),
+                .align(alignment= Alignment.BottomEnd)
+                .clickable(
+                    onClick = {launcher.launch("image/*")}
+                )
         )
 
     }
@@ -133,8 +178,7 @@ fun UserImage(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SignUpUserForm(navController: NavHostController) {
-
+fun SignUpUserForm(navController: NavHostController, profileImage: Bitmap) {
     var name by remember{
         mutableStateOf("")
     }
