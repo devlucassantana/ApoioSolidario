@@ -43,12 +43,12 @@ fun CategoryItem(category: Category= Category()) {
                 .fillMaxSize(),
                 contentAlignment = Alignment.Center
             ){
-               Image(
-                   painter = (painterResource(id = category.image!!)),
-                contentDescription = category.name,
-                   modifier = Modifier
-                       .size(40.dp)
-               )
+                Image(
+                    painter = (painterResource(id = category.image!!)),
+                    contentDescription = category.name,
+                    modifier = Modifier
+                        .size(40.dp)
+                )
             }
         }
         Text(

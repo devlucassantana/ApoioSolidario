@@ -126,7 +126,7 @@ fun LoginUserForm(navController: NavController) {
     }
 
     val userRepository : UserRepository =
-    RoomUserRepository(context = LocalContext.current)
+        RoomUserRepository(context = LocalContext.current)
 
     Column(
         modifier= Modifier
@@ -161,18 +161,18 @@ fun LoginUserForm(navController: NavController) {
             }
         )
 
-            OutlinedTextField(
-                value = password,
-                onValueChange = {passwordValue->
-                    password = passwordValue
-                },
-                modifier = Modifier
-                    .fillMaxWidth(),
-                label = {
-                    Text(
-                        text = stringResource(R.string.password),
-                        style = MaterialTheme.typography.labelSmall
-                    )
+        OutlinedTextField(
+            value = password,
+            onValueChange = {passwordValue->
+                password = passwordValue
+            },
+            modifier = Modifier
+                .fillMaxWidth(),
+            label = {
+                Text(
+                    text = stringResource(R.string.password),
+                    style = MaterialTheme.typography.labelSmall
+                )
             },
             shape = CircleShape,
             colors = OutlinedTextFieldDefaults
@@ -203,11 +203,11 @@ fun LoginUserForm(navController: NavController) {
                     )
                 }
             },
-                visualTransformation = if(showPassword){
-                    VisualTransformation.None
-                }else{
-                    PasswordVisualTransformation()
-                }
+            visualTransformation = if(showPassword){
+                VisualTransformation.None
+            }else{
+                PasswordVisualTransformation()
+            }
         )
         Spacer(modifier= Modifier.height(32.dp))
 
@@ -250,7 +250,7 @@ fun LoginUserForm(navController: NavController) {
                 )
                 Spacer(Modifier.width(8.dp))
                 Text(
-                    text= stringResource(R.string.authentication_error),
+                    text= "Authentication Error",
                     color = MaterialTheme.colorScheme.error,
                 )
             }

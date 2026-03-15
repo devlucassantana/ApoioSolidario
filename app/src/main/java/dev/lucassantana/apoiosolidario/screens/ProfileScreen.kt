@@ -1,6 +1,5 @@
 package dev.lucassantana.apoiosolidario.screens
 
-import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -25,19 +24,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import dev.lucassantana.apoiosolidario.R
-import dev.lucassantana.apoiosolidario.ui.theme.ApoioSolidarioTheme
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
@@ -46,31 +32,43 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import dev.lucassantana.apoiosolidario.R
 import dev.lucassantana.apoiosolidario.model.User
 import dev.lucassantana.apoiosolidario.navigation.Destino
 import dev.lucassantana.apoiosolidario.repository.RoomUserRepository
-import dev.lucassantana.apoiosolidario.repository.SharedPreferencesUserRepository
+import dev.lucassantana.apoiosolidario.ui.theme.ApoioSolidarioTheme
 import dev.lucassantana.apoiosolidario.utils.convertBitmapToByteArray
-import dev.lucassantana.apoiosolidario.utils.convertByteArrayToBitmap
 
 @Composable
-fun SignupScreen(navController: NavHostController) {
+fun ProfileScreen(navController: NavController, email: String?) {
 
     val context = LocalContext.current
+
     val placeholderImage= BitmapFactory
         .decodeResource(
             Resources.getSystem(),
@@ -114,37 +112,27 @@ fun SignupScreen(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ){
-            TitleSignup()
+            ProfileTitleComponent()
             Spacer(modifier = Modifier.height(40.dp))
-            UserImage(profileImage, launcher)
-            SignUpUserForm(navController,profileImage)
+            ProfileUserImage(profileImage, launcher)
+            ProfileUserForm(navController as NavHostController,profileImage, email)
         }
     }
 
 }
-
-@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
-private fun SignUpScreenPreview() {
-    ApoioSolidarioTheme() {
-        SignupScreen(rememberNavController())
-    }
-
-}
-
-@Composable
-fun TitleSignup(modifier: Modifier= Modifier){
+fun ProfileTitleComponent(modifier: Modifier= Modifier){
     Column (
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Text(
-            text = stringResource(R.string.sign_up),
+            text = "Perfil",
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleLarge
         )
         Text(
-            text = stringResource(R.string.create_new_account),
+            text = "Informações da conta",
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleSmall
         )
@@ -152,7 +140,7 @@ fun TitleSignup(modifier: Modifier= Modifier){
 }
 
 @Composable
-fun UserImage(profileImage: Bitmap, launcher: ManagedActivityResultLauncher<String, Uri?>) {
+fun ProfileUserImage(profileImage: Bitmap, launcher: ManagedActivityResultLauncher<String, Uri?>) {
     Box(
         modifier= Modifier
             .size(120.dp)
@@ -181,7 +169,7 @@ fun UserImage(profileImage: Bitmap, launcher: ManagedActivityResultLauncher<Stri
 }
 
 @Composable
-fun SignUpUserForm(navController: NavHostController, profileImage: Bitmap) {
+fun ProfileUserForm(navController: NavHostController, profileImage: Bitmap, email1: String?) {
     var name by remember{
         mutableStateOf("")
     }
@@ -384,29 +372,6 @@ fun SignUpUserForm(navController: NavHostController, profileImage: Bitmap) {
             },
             colors = ButtonDefaults
                 .buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
-                ),
-            border = BorderStroke(
-                width = 2.dp,
-                color = MaterialTheme.colorScheme.onSurface
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.create_account),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        }
-        Spacer(modifier= Modifier.height(32.dp))
-        Button(
-            onClick = {
-                navController.navigate(Destino.HomeScreen.route)
-            },
-            colors = ButtonDefaults
-                .buttonColors(
                     containerColor = MaterialTheme.colorScheme.secondary
                 ),
             border = BorderStroke(
@@ -418,7 +383,7 @@ fun SignUpUserForm(navController: NavHostController, profileImage: Bitmap) {
                 .height(48.dp)
         ) {
             Text(
-                text = stringResource(R.string.anonymous_button),
+                text = "Atualizar informações",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -455,4 +420,12 @@ fun SignUpUserForm(navController: NavHostController, profileImage: Bitmap) {
         )
     }
 
+}
+
+@Preview
+@Composable
+private fun ProfileScreenPreview() {
+    ApoioSolidarioTheme() {
+        ProfileScreen(navController = rememberNavController(), email = "")
+    }
 }

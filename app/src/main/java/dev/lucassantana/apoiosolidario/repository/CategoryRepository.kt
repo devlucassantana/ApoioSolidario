@@ -12,4 +12,4 @@ fun getAllCategories()= listOf<Category>(
     Category(id = 500,name="Recentes",image = R.drawable.doecoes, background = Color.LightGray),
     Category(id = 600,name="Matches",image = R.drawable.matches, background = Color.LightGray),
 
-)
+    )

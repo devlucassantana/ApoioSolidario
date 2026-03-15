@@ -1,6 +1,5 @@
 package dev.lucassantana.apoiosolidario.screens
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -40,14 +39,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -60,12 +54,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import dev.lucassantana.apoiosolidario.R
 import dev.lucassantana.apoiosolidario.components.CategoryItem
-import dev.lucassantana.apoiosolidario.repository.RoomUserRepository
+import dev.lucassantana.apoiosolidario.navigation.Destino
+import dev.lucassantana.apoiosolidario.repository.SharedPreferencesUserRepository
 import dev.lucassantana.apoiosolidario.repository.UserRepository
 import dev.lucassantana.apoiosolidario.repository.getAllCategories
 import dev.lucassantana.apoiosolidario.ui.theme.ApoioSolidarioTheme
 import dev.lucassantana.apoiosolidario.ui.theme.ralewayFamily
-import dev.lucassantana.apoiosolidario.utils.convertByteArrayToBitmap
 
 @Composable
 fun HomeScreen(navController: NavController, email: String?) {
@@ -75,8 +69,8 @@ fun HomeScreen(navController: NavController, email: String?) {
     ) {
         Scaffold(
             topBar = {MyTopAppBar(email!!)},
-            bottomBar = {MyBottomAppBar()},
-            floatingActionButton = {MyFloatingActionButtom()},
+            bottomBar = {MyBottomAppBar(navController)},
+            floatingActionButton = {MyFloatingActionButtom(navController)},
         ){paddingValues ->
             ScreenContent(modifier = Modifier.padding(paddingValues))
         }
@@ -95,16 +89,10 @@ private fun HomeScreenPreview() {
 @Composable
 fun MyTopAppBar(email: String?) {
 
-    val userRepository: UserRepository=
-        RoomUserRepository(context= LocalContext.current)
+    val userRepository: UserRepository =
+        SharedPreferencesUserRepository(context=LocalContext.current)
 
-    val user=userRepository.getUserByEmail(email)
-
-    var profileBitmap by remember {
-        mutableStateOf<Bitmap>(
-            convertByteArrayToBitmap(user!!.userImage!!)
-        )
-    }
+    val user = userRepository.getUser()
 
 
     TopAppBar(
@@ -113,7 +101,7 @@ fun MyTopAppBar(email: String?) {
                 color = MaterialTheme.colorScheme.primary
             )
             .fillMaxWidth(),
-            //.height(80.dp),
+        //.height(80.dp),
         title = {
             Row (
                 modifier= Modifier
@@ -124,13 +112,13 @@ fun MyTopAppBar(email: String?) {
             ){
                 Column {
                     Text(
-                        text= "Olá, ${user!!.name}!",
+                        text= "Olá, ${user.name}!",
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "${user!!.email}",
+                        text = email!!,
                         style = MaterialTheme.typography.displaySmall,
                         color= MaterialTheme.colorScheme.primary
                     )
@@ -148,10 +136,9 @@ fun MyTopAppBar(email: String?) {
                     )
                 ) {
                     Image(
-                        bitmap = profileBitmap.asImageBitmap(),
-                        contentDescription = "Imagem de perfil",
-                        modifier= Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
+                        painter = painterResource(R.drawable.usericon),
+                        contentDescription = "icone do usuario",
+                        modifier = Modifier
                     )
                 }
             }
@@ -165,7 +152,7 @@ data class BottomNavigation(
 )
 
 @Composable
-fun MyBottomAppBar(modifier: Modifier = Modifier) {
+fun MyBottomAppBar(navController: NavController) {
     val itens = listOf(
         BottomNavigation("Home", icon = Icons.Default.Home),
         BottomNavigation("Family", icon = Icons.Default.FamilyRestroom),
@@ -178,7 +165,10 @@ fun MyBottomAppBar(modifier: Modifier = Modifier) {
         itens.forEach{ item ->
             NavigationBarItem(
                 selected = false,
-                onClick = {},
+                onClick = {
+                    val email = ""
+                    navController.navigate(Destino.ProfileScreen.createRoute(email))
+                },
                 icon={
                     Icon(
                         imageVector = item.icon,
@@ -200,13 +190,15 @@ fun MyBottomAppBar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun MyFloatingActionButtom(modifier: Modifier = Modifier) {
+fun MyFloatingActionButtom(navController: NavController) {
     FloatingActionButton(
-        onClick = {},
+        onClick = {
+            navController.navigate(Destino.DonationsScreen.route)
+        },
         shape = CircleShape,
         containerColor = MaterialTheme.colorScheme.tertiary,
 
-    ) {
+        ) {
         Icon(
             imageVector = Icons.Default.Add,
             contentDescription = "Botão Adicionar"
@@ -221,7 +213,7 @@ fun ScreenContent(modifier: Modifier = Modifier) {
     val categories = getAllCategories()
 
     Column(modifier = modifier
-            .fillMaxSize()
+        .fillMaxSize()
         .padding(horizontal = 0.dp)) {
         OutlinedTextField(
             value = "",

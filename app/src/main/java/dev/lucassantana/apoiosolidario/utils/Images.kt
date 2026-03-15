@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory
 import java.io.ByteArrayOutputStream
 
 fun convertBitmapToByteArray(bitmap: Bitmap): ByteArray{
-    val outputStream = ByteArrayOutputStream()
+    val outputStream= ByteArrayOutputStream()
     bitmap.compress(
         Bitmap.CompressFormat.JPEG,
         75,
@@ -15,10 +15,8 @@ fun convertBitmapToByteArray(bitmap: Bitmap): ByteArray{
 }
 
 fun convertByteArrayToBitmap(imageArray: ByteArray): Bitmap{
-    return BitmapFactory
-        .decodeByteArray(
-            imageArray,
-            0,
-            imageArray.size
-        )
+    return BitmapFactory.decodeByteArray(
+        imageArray,
+        0,
+        imageArray.size)
 }

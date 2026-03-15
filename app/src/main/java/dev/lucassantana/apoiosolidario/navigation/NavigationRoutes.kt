@@ -8,9 +8,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import dev.lucassantana.apoiosolidario.screens.DonationsScreen
 import dev.lucassantana.apoiosolidario.screens.HomeScreen
 import dev.lucassantana.apoiosolidario.screens.InitialScreen
 import dev.lucassantana.apoiosolidario.screens.LoginScreen
+import dev.lucassantana.apoiosolidario.screens.ProfileScreen
 import dev.lucassantana.apoiosolidario.screens.SignupScreen
 
 @Composable
@@ -19,11 +21,23 @@ fun NavigationRoutes(){
     NavHost(
         navController = navController,
         startDestination = Destino.InitialScreen.route
-    ){
-        composable(Destino.InitialScreen.route){
+    ) {
+        composable(
+            Destino.ProfileScreen.route,
+            arguments = listOf(
+                navArgument("email") {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            var email = backStackEntry.arguments?.getString("email")
+            ProfileScreen(navController, email)
+        }
+
+        composable(Destino.InitialScreen.route) {
             InitialScreen(navController)
         }
-        composable (
+        composable(
             route = Destino.HomeScreen.route,
             deepLinks = listOf(
                 navDeepLink {
@@ -34,16 +48,20 @@ fun NavigationRoutes(){
             arguments = listOf(navArgument("email") {
                 type = NavType.StringType
             })
-        ){backStackEntry ->
+        ) { backStackEntry ->
             var email = backStackEntry.arguments?.getString("email")
             HomeScreen(navController, email)
         }
-        composable (Destino.SignupScreen.route){
+        composable(Destino.SignupScreen.route) {
             SignupScreen(navController)
+
         }
-        composable (Destino.LoginScreen.route){
+        composable(Destino.LoginScreen.route) {
             LoginScreen(navController)
         }
+        composable(Destino.DonationsScreen.route) {
+            DonationsScreen(navController)
 
+        }
     }
 }

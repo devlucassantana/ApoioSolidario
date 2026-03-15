@@ -7,6 +7,8 @@ import dev.lucassantana.apoiosolidario.model.User
 class RoomUserRepository(context: Context) : UserRepository {
 
     private val necessityDatabase = NecessitiesDatabase.getDatabase(context).userDao()
+
+
     override fun saveUser(user: User) {
         necessityDatabase.save(user)
     }
@@ -19,7 +21,7 @@ class RoomUserRepository(context: Context) : UserRepository {
         return necessityDatabase.getUserById(id=1)?: User()
     }
 
-    override fun getUserByEmail(email: String?): User? {
+    override fun getUserByEmail(email: String): User? {
         return necessityDatabase.getUserByEmail(email)
     }
 

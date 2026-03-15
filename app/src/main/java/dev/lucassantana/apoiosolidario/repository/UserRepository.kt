@@ -8,8 +8,9 @@ interface UserRepository {
     fun getUser(): User
     fun getUser(id: Int): User
 
-    fun getUserByEmail(email: String?): User?
+    fun getUserByEmail(email: String): User?
     fun login(email: String, password: String): Boolean
+
 
 }
 
